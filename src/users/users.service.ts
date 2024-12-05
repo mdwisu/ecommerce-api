@@ -19,4 +19,8 @@ export class UsersService {
     });
     return this.usersRepository.save(newUser);
   }
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { email } });
+  }
 }
