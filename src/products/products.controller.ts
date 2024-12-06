@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
+import { JwtAuthGuard } from '../guards/auth.guard';
 
 @Controller('products')
 export class ProductsController {
@@ -24,6 +25,7 @@ export class ProductsController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.productsService.findAll();
   }

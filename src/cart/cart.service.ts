@@ -1,22 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { ProductsService } from './../products/products.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { User } from '../users/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+// entity
 import { Product } from '../products/product.entity';
+import { Cart } from './cart.entity';
 
 @Injectable()
 export class CartService {
-  private cart: { product: Product; quantity: number }[] = [];
+  constructor(
+    @InjectRepository(Cart)
+    private readonly cartRepository: Repository<Cart>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  addToCart(product: Product, quantity: number) {
-    this.cart.push({ product, quantity });
-  }
-
-  getCart() {
-    return this.cart;
-  }
-
-  getTotal() {
-    return this.cart.reduce(
-      (total, item) => total + item.product.price * item.quantity,
-      0,
-    );
-  }
+  
 }

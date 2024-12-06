@@ -7,16 +7,11 @@ import { ProductsModule } from './products/products.module';
 import { CartModule } from './cart/cart.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
+import { AuthModule } from './auth/auth.module';
+import { APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
-    UsersModule,
-    // TypeOrmModule.forRoot({
-    //   type: 'sqlite',
-    //   database: 'db.sqlite',
-    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
-    //   synchronize: true,
-    // }),
     TypeOrmModule.forRoot({
       type: 'postgres', // Menentukan tipe database
       host: 'localhost', // Host PostgreSQL
@@ -24,24 +19,23 @@ import { PaymentsModule } from './payments/payments.module';
       username: 'postgres', // Username untuk koneksi ke DB
       password: 'postgredwi', // Password untuk koneksi ke DB
       database: 'db_ecommerce_nest', // Nama database yang ingin digunakan
-      entities: [
-        // Daftar entitas yang digunakan di aplikasi
-        __dirname + '/**/*.entity{.ts,.js}',
-      ],
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true, // Auto sync DB schema (hanya di dev)
     }),
+    UsersModule,
     ProductsModule,
     CartModule,
     OrdersModule,
     PaymentsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     {
-      provide: 'APP_PIPE',
+      provide: APP_PIPE,
       useValue: new ValidationPipe({
-        whitelist: true,
+        whitelist: true, // Menghapus properti yang tidak ada di DTO
       }),
     },
   ],
