@@ -1,11 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  JoinTable,
-  OneToMany,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 import { Order } from '../orders/order.entity';
 import { Cart } from '../cart/cart.entity';
 

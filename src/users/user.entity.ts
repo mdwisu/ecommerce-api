@@ -3,8 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToMany,
-  OneToOne,
-  JoinColumn,
 } from 'typeorm';
 import { Order } from '../orders/order.entity';
 import { Cart } from '../cart/cart.entity';
