@@ -5,10 +5,12 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dtos/login.dto';
+import { JwtAuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +19,7 @@ export class AuthController {
     private readonly usersService: UsersService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get('/users')
   async getAllUsers() {
     return this.usersService.findAll();
