@@ -4,12 +4,13 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  OneToMany,
   ManyToMany,
   JoinTable,
+  JoinColumn,
 } from 'typeorm';
 import { User } from '../users/user.entity'; // Relasi ke User
 import { Product } from '../products/product.entity'; // Relasi ke Product
+import { Cart } from '../cart/cart.entity';
 
 @Entity()
 export class Order {
@@ -33,4 +34,8 @@ export class Order {
   @ManyToMany(() => Product, (product) => product.orders)
   @JoinTable() // Tabel penghubung untuk relasi ManyToMany
   products: Product[];
+
+  @ManyToOne(() => Cart, (cart) => cart.orders)
+  @JoinColumn({ name: 'cartId' })
+  cart: Cart;
 }

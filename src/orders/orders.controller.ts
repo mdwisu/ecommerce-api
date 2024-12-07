@@ -1,4 +1,11 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CartService } from '../cart/cart.service';
 import { JwtAuthGuard } from '../guards/auth.guard';
@@ -10,10 +17,16 @@ export class OrdersController {
     private readonly cartService: CartService,
   ) {}
 
-  @Post('create')
+  @Post('')
   @UseGuards(JwtAuthGuard)
-  createOrder(@Body() body: { userId: number }) {
-    // return this.ordersService.createOrder({ id: body.userId });
-    return 'hallo';
+  createOrder(@Request() req: any, @Body() body: any) {
+    const { productIds, orderDate } = body;
+    return this.ordersService.createOrder(req.user.id, productIds, orderDate);
+  }
+
+  @Get('')
+  @UseGuards(JwtAuthGuard)
+  getOrdersByUser(@Request() req: any) {
+    return this.ordersService.getOrderByUserId(req.user.id);
   }
 }
